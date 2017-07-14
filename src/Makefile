@@ -11,11 +11,11 @@ testRepro3.o: testRepro3.c
 reproject.o: reproject.c reproject.h
 	$(CC) -o $@ -c $<
 testRepro: testRepro.o reproject.o
-	$(CC) -o ./$@ $+
+	$(CC) -o ../$@ $+
 testRepro2: testRepro2.o reproject.o
-	$(CC) -o ./$@ $+
+	$(CC) -o ../$@ $+
 testRepro3: testRepro3.o reproject.o
-	$(CC) -o ./$@ $+
+	$(CC) -o ../$@ $+
 
 clean:
-	rm *.o testRepro testRepro2 testRepro3
+	rm *.o ../testRepro ../testRepro2 ../testRepro3
