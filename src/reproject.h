@@ -11,8 +11,8 @@
  * NAME:	nearestNeighbor
  * DESCRIPTION:	Find the nearest neighboring source cell's ID for each target cell
  * PARAMETERS:
- *	double * &souLat:	the latitudes of source cells (the data are changed during in the function, so please do the output before this function)
- *	double * &souLon:	the longitudes of source cells (the data are changed during in the function, so please do the output before this function)
+ *	double ** psouLat:	the pointer to the array of latitudes of source cells (the data are changed during in the function, so please do the output before this function)
+ *	double ** psouLon:	the pointer to the array of longitudes of source cells (the data are changed during in the function, so please do the output before this function)
  *	int nSou:		the number of source cells
  *	double * tarLat:	the latitudes of target cells
  *	double * tarLon:	the longitudes of target cells
