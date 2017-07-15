@@ -214,10 +214,14 @@ int main(int argc, char ** argv) {
 
 
 	double *iLat, *iLon, *oLat, *oLon, *iVal, *oVal;
+	double **piLat, **piLon;
 	int *tarNNSouID;
 	iLat=(double *)malloc(sizeof(double) * nIn);
 	iLon=(double *)malloc(sizeof(double) * nIn);
 	iVal=(double *)malloc(sizeof(double) * nIn);
+
+	piLat = &iLat;
+	piLon = &iLon;
 
 
 	oLat=(double *)malloc(sizeof(double) * nOut);
@@ -237,7 +241,7 @@ int main(int argc, char ** argv) {
 		oLon[i] = outLon[i];
 	}
 
-	nearestNeighbor(iLat, iLon, nIn, oLat, oLon, tarNNSouID, nOut, maxR);
+	nearestNeighbor(piLat, piLon, nIn, oLat, oLon, tarNNSouID, nOut, maxR);
 
 	nnInterpolate(iVal, oVal, tarNNSouID, nOut);
 
@@ -254,8 +258,8 @@ int main(int argc, char ** argv) {
 //		printf("%lf,%lf,%d\n", outLat[i], outLon[i], tarNNSouID[i]);
 	}
 
-	free(iLat);
-	free(iLon);
+	free(*piLat);
+	free(*piLon);
 	free(iVal);
 	free(oLat);
 	free(oLon);

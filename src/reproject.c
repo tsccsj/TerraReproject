@@ -12,7 +12,11 @@
 #    define M_PI 3.14159265358979323846
 #endif
 
-int * pointIndexOnLat(double * &lat, double * &lon,  int * oriID, int &count, int nBlockY) {
+int * pointIndexOnLat(double ** plat, double ** plon,  int * oriID, int *pcount, int nBlockY) {
+
+	double *lat = *plat;
+	double *lon = *plon;
+	int count = *pcount;
 
 	double blockR = M_PI/nBlockY;
 
@@ -88,8 +92,9 @@ int * pointIndexOnLat(double * &lat, double * &lon,  int * oriID, int &count, in
 	free(lat);
 
 	count = index[nBlockY];
-	lon = newLon;
-	lat = newLat;
+	*pcount = count;
+	*plon = newLon;
+	*plat = newLat;
 
 //	printf("%0x\n", lat);
 
@@ -97,9 +102,11 @@ int * pointIndexOnLat(double * &lat, double * &lon,  int * oriID, int &count, in
 }
 
 //Finding the nearest neiboring point's ID 
-void nearestNeighbor(double * &souLat, double * &souLon, int nSou, double * tarLat, double * tarLon, int * tarNNSouID, int nTar, double maxR) {
+void nearestNeighbor(double ** psouLat, double ** psouLon, int nSou, double * tarLat, double * tarLon, int * tarNNSouID, int nTar, double maxR) {
 
 	//printf("%0x\n", souLat);
+	double * souLat = *psouLat;
+	double * souLon = *psouLon;
 
 	const double earthRadius = 6367444;
 	double radius = maxR / earthRadius;
@@ -123,8 +130,12 @@ void nearestNeighbor(double * &souLat, double * &souLon, int nSou, double * tarL
 		printf("ERROR: Out of memory at line %d in file %s\n", __LINE__, __FILE__);
 		exit(1);
 	}
-
-	int * souIndex = pointIndexOnLat(souLat, souLon, souID, nSou, nBlockY);
+	int * pnSou;
+	pnSou = &nSou;
+	int * souIndex = pointIndexOnLat(psouLat, psouLon, souID, pnSou, nBlockY);
+	nSou = * pnSou;
+	souLat = *psouLat;
+	souLon = *psouLon;
 
 	double tLat, tLon;
 	double sLat, sLon;

@@ -22,7 +22,7 @@
  * Output: 	
  *	int * tarNNSouID:	the output IDs of nearest neighboring source cells 
  */ 
-void nearestNeighbor(double * &souLat, double * &souLon, int nSou, double * tarLat, double * tarLon, int * tarNNSouID, int nTar, double maxR);
+void nearestNeighbor(double ** psouLat, double ** psouLon, int nSou, double * tarLat, double * tarLon, int * tarNNSouID, int nTar, double maxR);
 
 /**
  * NAME:	nnInterpolate

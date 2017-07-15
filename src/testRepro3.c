@@ -14,6 +14,8 @@ int main(int argc, char ** argv) {
 
 	double * MODISLat, * MODISLon, * MODISVal;
 	double * MISRLat, * MISRLon, * MISRVal;
+	double ** pMODISLat, ** pMODISLon;
+	double ** pMISRLat, ** pMISRLon;
 	int * souNNTarID;
 	int nMODIS = 1347102;
 	int nMISR = 262144;
@@ -27,6 +29,12 @@ int main(int argc, char ** argv) {
 	MISRLat = (double *) malloc(sizeof(double) * nMISR);
 	MISRLon = (double *) malloc(sizeof(double) * nMISR);
 	MISRVal = (double *) malloc(sizeof(double) * nMISR);
+	
+	pMODISLat = &MODISLat;
+	pMODISLon = &MODISLon;
+	pMISRLat = &MISRLat;
+	pMISRLon = &MISRLon;
+	
 	FILE * fLat;
 	FILE * fLon;
 	FILE * fVal;
@@ -72,7 +80,11 @@ int main(int argc, char ** argv) {
 
 	souNNTarID = (int *) malloc(sizeof(int) * nMISR);
 	
-	nearestNeighbor(MODISLat, MODISLon, nMODIS, MISRLat, MISRLon, souNNTarID, nMISR, maxR);
+	nearestNeighbor(pMODISLat, pMODISLon, nMODIS, MISRLat, MISRLon, souNNTarID, nMISR, maxR);
+	
+	MODISLat = *pMODISLat;
+	MODISLon = *pMODISLon;
+
 	int * nMISRPixels = (int *) malloc(sizeof(int) * nMODIS);
 
 	summaryInterpolate(MISRVal, souNNTarID, nMISR, MODISVal, nMISRPixels, nMODIS);
@@ -106,7 +118,11 @@ int main(int argc, char ** argv) {
 
 	souNNTarID = (int *) malloc(sizeof(int) * nMODIS);
 	
-	nearestNeighbor(MISRLat, MISRLon, nMISR, MODISLat, MODISLon, souNNTarID, nMODIS, maxR);
+	nearestNeighbor(pMISRLat, pMISRLon, nMISR, MODISLat, MODISLon, souNNTarID, nMODIS, maxR);
+	
+	MISRLat = *pMISRLat;
+	MISRLon = *pMISRLon;
+	
 	int * nMODISPixels = (int *) malloc(sizeof(int) * nMISR);
 
 	summaryInterpolate(MODISVal, souNNTarID, nMODIS, MISRVal, nMODISPixels, nMISR);
@@ -134,11 +150,11 @@ int main(int argc, char ** argv) {
 	//MODIS to MISR
 	
 
-	free(MODISLat);
-	free(MODISLon);
+	free(*pMODISLat);
+	free(*pMODISLon);
 	free(MODISVal);
-	free(MISRLat);
-	free(MISRLon);
+	free(*pMISRLat);
+	free(*pMISRLon);
 	free(MISRVal);
 	free(souNNTarID);
 
