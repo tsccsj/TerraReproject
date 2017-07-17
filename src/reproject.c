@@ -12,11 +12,10 @@
 #    define M_PI 3.14159265358979323846
 #endif
 
-int * pointIndexOnLat(double ** plat, double ** plon,  int * oriID, int *pcount, int nBlockY) {
+int * pointIndexOnLat(double ** plat, double ** plon,  int * oriID, int count, int nBlockY) {
 
 	double *lat = *plat;
 	double *lon = *plon;
-	int count = *pcount;
 
 	double blockR = M_PI/nBlockY;
 
@@ -92,7 +91,6 @@ int * pointIndexOnLat(double ** plat, double ** plon,  int * oriID, int *pcount,
 	free(lat);
 
 	count = index[nBlockY];
-	*pcount = count;
 	*plon = newLon;
 	*plat = newLat;
 
@@ -130,10 +128,7 @@ void nearestNeighbor(double ** psouLat, double ** psouLon, int nSou, double * ta
 		printf("ERROR: Out of memory at line %d in file %s\n", __LINE__, __FILE__);
 		exit(1);
 	}
-	int * pnSou;
-	pnSou = &nSou;
-	int * souIndex = pointIndexOnLat(psouLat, psouLon, souID, pnSou, nBlockY);
-	nSou = * pnSou;
+	int * souIndex = pointIndexOnLat(psouLat, psouLon, souID, nSou, nBlockY);
 	souLat = *psouLat;
 	souLon = *psouLon;
 
