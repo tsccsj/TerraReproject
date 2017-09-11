@@ -46,7 +46,8 @@ int main(int argc, char ** argv) {
 	tarNNSouID = (int *)malloc(sizeof(int) * nCellMODIS);
 
 	//Finding nearest points
-	nearestNeighbor(p_MISR_Lat, p_MISR_Lon, nCellMISR, MODIS_Lat, MODIS_Lon, tarNNSouID, nCellMODIS, 1000);
+	//nearestNeighbor(p_MISR_Lat, p_MISR_Lon, nCellMISR, MODIS_Lat, MODIS_Lon, tarNNSouID, nCellMODIS, 1000);
+	nearestNeighbor(p_MISR_Lat, p_MISR_Lon, nCellMISR, MODIS_Lat, MODIS_Lon, tarNNSouID, NULL, nCellMODIS, 1000);
 
 	MISR_Lat = * p_MISR_Lat;
 	MISR_Lon = * p_MISR_Lon;

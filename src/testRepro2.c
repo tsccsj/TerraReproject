@@ -80,7 +80,8 @@ int main(int argc, char ** argv) {
 
 	tarNNSouID = (int *) malloc(sizeof(int) * nMODIS);
 	
-	nearestNeighbor(pMISRLat, pMISRLon, nMISR, MODISLat, MODISLon, tarNNSouID, nMODIS, maxR);
+	//nearestNeighbor(pMISRLat, pMISRLon, nMISR, MODISLat, MODISLon, tarNNSouID, nMODIS, maxR);
+	nearestNeighbor(pMISRLat, pMISRLon, nMISR, MODISLat, MODISLon, tarNNSouID, NULL, nMODIS, maxR);
 
 	nnInterpolate(MISRVal, MODISVal, tarNNSouID, nMODIS);
 

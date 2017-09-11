@@ -118,7 +118,8 @@ int main(int argc, char ** argv) {
 
 	souNNTarID = (int *) malloc(sizeof(int) * nMODIS);
 	
-	nearestNeighbor(pMISRLat, pMISRLon, nMISR, MODISLat, MODISLon, souNNTarID, nMODIS, maxR);
+	//nearestNeighbor(pMISRLat, pMISRLon, nMISR, MODISLat, MODISLon, souNNTarID, nMODIS, maxR);
+	nearestNeighbor(pMISRLat, pMISRLon, nMISR, MODISLat, MODISLon, souNNTarID, NULL, nMODIS, maxR);
 	
 	MISRLat = *pMISRLat;
 	MISRLon = *pMISRLon;

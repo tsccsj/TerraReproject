@@ -241,7 +241,8 @@ int main(int argc, char ** argv) {
 		oLon[i] = outLon[i];
 	}
 
-	nearestNeighbor(piLat, piLon, nIn, oLat, oLon, tarNNSouID, nOut, maxR);
+//	nearestNeighbor(piLat, piLon, nIn, oLat, oLon, tarNNSouID, nOut, maxR);
+	nearestNeighbor(piLat, piLon, nIn, oLat, oLon, tarNNSouID, NULL, nOut, maxR);
 
 	nnInterpolate(iVal, oVal, tarNNSouID, nOut);
 

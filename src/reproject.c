@@ -100,6 +100,100 @@ int * pointIndexOnLat(double ** plat, double ** plon,  int * oriID, int count, i
 }
 
 //Finding the nearest neiboring point's ID 
+void nearestNeighbor(double ** psouLat, double ** psouLon, int nSou, double * tarLat, double * tarLon, int * tarNNSouID, double * tarNNDis, int nTar, double maxR) {
+
+	//printf("%0x\n", souLat);
+	double * souLat = *psouLat;
+	double * souLon = *psouLon;
+
+	const double earthRadius = 6367444;
+	double radius = maxR / earthRadius;
+	int nBlockY = M_PI / radius;
+
+	double blockR = M_PI / nBlockY;
+	
+
+	for(int i = 0; i < nSou; i++) {
+		souLat[i] = souLat[i] * M_PI / 180;
+		souLon[i] = souLon[i] * M_PI / 180;
+	}
+
+	for(int i = 0; i < nTar; i++) {
+		tarLat[i] = tarLat[i] * M_PI / 180;
+		tarLon[i] = tarLon[i] * M_PI / 180;
+	}
+
+	int * souID;
+	if(NULL == (souID = (int *)malloc(sizeof(double) * nSou))) {
+		printf("ERROR: Out of memory at line %d in file %s\n", __LINE__, __FILE__);
+		exit(1);
+	}
+	int * souIndex = pointIndexOnLat(psouLat, psouLon, souID, nSou, nBlockY);
+	souLat = *psouLat;
+	souLon = *psouLon;
+
+	double tLat, tLon;
+	double sLat, sLon;
+	int blockID;
+	int startBlock, endBlock;
+
+	double pDis;	
+	double nnDis;
+	int nnSouID;
+
+	for(int i = 0; i < nTar; i ++) {
+
+		tLat = tarLat[i];
+		tLon = tarLon[i];
+
+		blockID = (tLat + M_PI / 2) / blockR;
+		startBlock = blockID - 1;
+		endBlock = blockID + 1;
+
+		if(startBlock < 0) {
+			startBlock = 0;
+		}
+		if(endBlock > nBlockY - 1) {
+			endBlock = nBlockY - 1;
+		}
+
+		nnDis = -1;
+		
+		for(int j = souIndex[startBlock]; j < souIndex[endBlock+1]; j++) {
+			
+			sLat = souLat[j];
+			sLon = souLon[j];
+
+			pDis = acos(sin(tLat) * sin(sLat) + cos(tLat) * cos(sLat) * cos(tLon - sLon));
+				
+			if((nnDis < 0 || nnDis > pDis) && pDis <= radius) {
+				nnDis = pDis;
+				nnSouID = souID[j];
+			}
+				
+		}
+
+		if(nnDis < 0) {
+			tarNNSouID[i] = -1;
+			if(tarNNDis != NULL) {
+				tarNNDis[i] = -1;
+			}
+		}
+		else {
+			tarNNSouID[i] = nnSouID;
+			if(tarNNDis != NULL) {
+				tarNNDis[i] = pDis * earthRadius;
+			}
+		}
+	
+		 
+	}
+	
+	return;	
+}
+
+/*
+//Finding the nearest neiboring point's ID 
 void nearestNeighbor(double ** psouLat, double ** psouLon, int nSou, double * tarLat, double * tarLon, int * tarNNSouID, int nTar, double maxR) {
 
 	//printf("%0x\n", souLat);
@@ -185,7 +279,7 @@ void nearestNeighbor(double ** psouLat, double ** psouLon, int nSou, double * ta
 	
 	return;	
 }
-
+*/
 
 void nnInterpolate(double * souVal, double * tarVal, int * tarNNSouID, int nTar) {
 
