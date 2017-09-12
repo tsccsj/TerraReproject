@@ -182,7 +182,7 @@ void nearestNeighbor(double ** psouLat, double ** psouLon, int nSou, double * ta
 		else {
 			tarNNSouID[i] = nnSouID;
 			if(tarNNDis != NULL) {
-				tarNNDis[i] = pDis * earthRadius;
+				tarNNDis[i] = nnDis * earthRadius;
 			}
 		}
 	
