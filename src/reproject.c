@@ -1,13 +1,14 @@
 /**
  * reproject.c
  * Authors: Yizhao Gao <ygao29@illinois.edu>
- * Date: {10/10/2017}
+ * Date: {11/26/2017}
  */
 
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+#include <omp.h>
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
@@ -158,7 +159,6 @@ struct LonBlocks * pointIndexOnLatLon(double ** plat, double ** plon, int * oriI
 	*plat = newLat;
 
 	return blockIndex;
-
 }
 
 
@@ -290,18 +290,16 @@ void nearestNeighborBlockIndex(double ** psouLat, double ** psouLon, int nSou, d
 	souLat = *psouLat;
 	souLon = *psouLon;
 
-	double tLat, tLon;
-	double sLat, sLon;
-	int rowID, colID;
-
-	double pDis;
-	double nnDis;
-	int nnSouID;
-
+#pragma omp parallel for private(j, k, kk, l)
 	for(i = 0; i < nTar; i ++) {
 		
-		tLat = tarLat[i];
-		tLon = tarLon[i];
+		double tLat = tarLat[i];
+		double tLon = tarLon[i];
+		double sLat, sLon;
+		int rowID, colID;
+		double pDis;
+		double nnDis;
+		int nnSouID;
 
 		rowID = (tLat + M_PI / 2) / latBlockR;
 
@@ -369,11 +367,7 @@ void nearestNeighborBlockIndex(double ** psouLat, double ** psouLon, int nSou, d
 			}
 		}
 			
-	}
-
-	
-	
-
+	}	
 
 	free(souID);
 	for(i = 0; i < nBlockY; i++) {

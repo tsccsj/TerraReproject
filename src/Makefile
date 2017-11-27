@@ -1,5 +1,6 @@
 CC=gcc
 H5CC=h5cc
+OMPFLAGS = -g -fopenmp
 
 all: testBlock testRepro testRepro2 testRepro3 testReproHDF5
 
